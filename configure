@@ -1,0 +1,1 @@
+--with-distro=none  --with-systemdsystemunitdir=/usr/lib/systemd/system  --disable-qt3  --disable-qt4  --disable-libdaemon --disable-pygtk  --disable-python-dbus  --disable-python  --disable-autoipd  --disable-mono
