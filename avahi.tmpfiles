@@ -1,0 +1,2 @@
+d /var/lib/avahi 0700 avahi avahi - -
+d /var/lib/avahi/services 0700 avahi avahi - -

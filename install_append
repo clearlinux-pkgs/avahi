@@ -1,0 +1,2 @@
+mkdir -p %{buildroot}/usr/share/defaults/etc/avahi
+install avahi-daemon.conf %{buildroot}/usr/share/defaults/etc/avahi/

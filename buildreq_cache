@@ -1,0 +1,7 @@
+0.7
+doxygen
+gobject-introspection-dev
+graphviz
+libcap-dev
+pkgconfig(systemd)
+systemd-dev
