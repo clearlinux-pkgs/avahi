@@ -4,7 +4,7 @@
 #
 Name     : avahi
 Version  : 0.8
-Release  : 4
+Release  : 5
 URL      : http://avahi.org/download/avahi-0.8.tar.gz
 Source0  : http://avahi.org/download/avahi-0.8.tar.gz
 Source1  : avahi.tmpfiles
@@ -148,16 +148,16 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1582125926
+export SOURCE_DATE_EPOCH=1582126277
 # -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export FFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
 %configure --disable-static --with-distro=none \
 --disable-qt3 \
 --disable-qt4 \
@@ -178,7 +178,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1582125926
+export SOURCE_DATE_EPOCH=1582126277
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/avahi
 cp %{_builddir}/avahi-0.8/LICENSE %{buildroot}/usr/share/package-licenses/avahi/9a1929f4700d2407c70b507b3b2aaf6226a9543c
@@ -286,6 +286,9 @@ install avahi-daemon.conf %{buildroot}/usr/share/defaults/etc/avahi/
 /usr/bin/avahi-daemon
 /usr/lib/systemd/system/avahi-daemon.service
 /usr/lib/systemd/system/avahi-daemon.socket
+/usr/lib64/libavahi-libevent.so.1.0.0
+/usr/lib64/libavahi-qt5.so.1
+/usr/lib64/libavahi-qt5.so.1.0.2
 /usr/share/dbus-1/system-services/org.freedesktop.Avahi.service
 /usr/share/defaults/etc/avahi/avahi-daemon.conf
 /usr/share/defaults/etc/avahi/services/sftp-ssh.service
@@ -307,9 +310,6 @@ install avahi-daemon.conf %{buildroot}/usr/share/defaults/etc/avahi/
 /usr/lib64/libavahi-gobject.so.0
 /usr/lib64/libavahi-gobject.so.0.0.5
 /usr/lib64/libavahi-libevent.so.1
-/usr/lib64/libavahi-libevent.so.1.0.0
-/usr/lib64/libavahi-qt5.so.1
-/usr/lib64/libavahi-qt5.so.1.0.2
 
 %files license
 %defattr(0644,root,root,0755)

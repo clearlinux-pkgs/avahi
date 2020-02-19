@@ -8,3 +8,6 @@
 /usr/share/defaults/etc/avahi/services/sftp-ssh.service
 /usr/share/defaults/etc/avahi/services/ssh.service
 /usr/share/defaults/etc/dbus-1/system.d/avahi-dbus.conf
+/usr/lib64/libavahi-libevent.so.1.0.0
+/usr/lib64/libavahi-qt5.so.1
+/usr/lib64/libavahi-qt5.so.1.0.2
