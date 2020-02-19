@@ -2,5 +2,7 @@ Configure miss: stow
 Configure miss: whether stack-smashing protection is buggy
 Configure miss: net/route.h
 Configure miss: struct lifconf
+Configure miss: whether Qt works without -fPIC
+Configure miss: moc-qt5
 Configure miss: XML_ParserCreate in -lbsdxml
 Configure miss: xmltoman

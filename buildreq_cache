@@ -1,7 +1,8 @@
-0.7
+0.8
 doxygen
 gobject-introspection-dev
 graphviz
 libcap-dev
+perl
 pkgconfig(systemd)
 systemd-dev
