@@ -4,7 +4,7 @@
 #
 Name     : avahi
 Version  : 0.8
-Release  : 5
+Release  : 6
 URL      : http://avahi.org/download/avahi-0.8.tar.gz
 Source0  : http://avahi.org/download/avahi-0.8.tar.gz
 Source1  : avahi.tmpfiles
