@@ -4,7 +4,7 @@
 #
 Name     : avahi
 Version  : 0.8
-Release  : 7
+Release  : 8
 URL      : http://avahi.org/download/avahi-0.8.tar.gz
 Source0  : http://avahi.org/download/avahi-0.8.tar.gz
 Source1  : avahi.tmpfiles
@@ -40,6 +40,7 @@ BuildRequires : pkgconfig(pygobject-3.0)
 BuildRequires : pkgconfig(systemd)
 BuildRequires : systemd-dev
 Patch1: 0001-Allow-fallback-to-a-system-wide-default-avahi-daemon.patch
+Patch2: 0002-fix-requires-in-pc-file.patch
 
 %description
 AVAHI SERVICE DISCOVERY SUITE
@@ -141,13 +142,14 @@ services components for the avahi package.
 %setup -q -n avahi-0.8
 cd %{_builddir}/avahi-0.8
 %patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1604078721
+export SOURCE_DATE_EPOCH=1610407031
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -176,7 +178,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1604078721
+export SOURCE_DATE_EPOCH=1610407031
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/avahi
 cp %{_builddir}/avahi-0.8/LICENSE %{buildroot}/usr/share/package-licenses/avahi/9a1929f4700d2407c70b507b3b2aaf6226a9543c

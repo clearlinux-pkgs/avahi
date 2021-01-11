@@ -1,1 +1,2 @@
 0001-Allow-fallback-to-a-system-wide-default-avahi-daemon.patch
+0002-fix-requires-in-pc-file.patch
