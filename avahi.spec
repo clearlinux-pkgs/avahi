@@ -4,7 +4,7 @@
 #
 Name     : avahi
 Version  : 0.8
-Release  : 9
+Release  : 10
 URL      : http://avahi.org/download/avahi-0.8.tar.gz
 Source0  : http://avahi.org/download/avahi-0.8.tar.gz
 Source1  : avahi.tmpfiles
@@ -35,7 +35,6 @@ BuildRequires : pkgconfig(gtk+-2.0)
 BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : pkgconfig(libdaemon)
 BuildRequires : pkgconfig(libevent)
-BuildRequires : pkgconfig(monodoc)
 BuildRequires : pkgconfig(pygobject-3.0)
 BuildRequires : pkgconfig(systemd)
 BuildRequires : systemd-dev
@@ -149,7 +148,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1610407031
+export SOURCE_DATE_EPOCH=1620325299
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -178,7 +177,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1610407031
+export SOURCE_DATE_EPOCH=1620325299
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/avahi
 cp %{_builddir}/avahi-0.8/LICENSE %{buildroot}/usr/share/package-licenses/avahi/9a1929f4700d2407c70b507b3b2aaf6226a9543c
