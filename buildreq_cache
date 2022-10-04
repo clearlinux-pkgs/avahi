@@ -5,4 +5,3 @@ graphviz
 libcap-dev
 perl
 pkgconfig(systemd)
-systemd-dev
