@@ -506,3 +506,7 @@ libavahi-gobject.so.0:ga_service_resolver_attach
 libavahi-gobject.so.0:ga_service_resolver_get_address
 libavahi-gobject.so.0:ga_service_resolver_get_type
 libavahi-gobject.so.0:ga_service_resolver_new
+libavahi-libevent.so.1:avahi_libevent_poll_free
+libavahi-libevent.so.1:avahi_libevent_poll_get
+libavahi-libevent.so.1:avahi_libevent_poll_new
+libavahi-libevent.so.1:avahi_libevent_poll_quit

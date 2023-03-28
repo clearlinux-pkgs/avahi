@@ -1,7 +1,13 @@
 0.8
+dbus-dev
 doxygen
+expat-dev
 gobject-introspection-dev
 graphviz
 libcap-dev
 perl
+pkgconfig(Qt5Core)
+pkgconfig(dbus-1)
+pkgconfig(libdaemon)
+pkgconfig(libevent)
 pkgconfig(systemd)
