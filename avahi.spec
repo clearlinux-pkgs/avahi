@@ -5,7 +5,7 @@
 #
 Name     : avahi
 Version  : 0.8
-Release  : 12
+Release  : 13
 URL      : http://avahi.org/download/avahi-0.8.tar.gz
 Source0  : http://avahi.org/download/avahi-0.8.tar.gz
 Source1  : avahi.tmpfiles
@@ -25,14 +25,21 @@ BuildRequires : dbus-dev
 BuildRequires : doxygen
 BuildRequires : expat-dev
 BuildRequires : gdbm-dev
+BuildRequires : gettext
 BuildRequires : gobject-introspection-dev
 BuildRequires : graphviz
 BuildRequires : libcap-dev
 BuildRequires : perl
+BuildRequires : perl(XML::Parser)
 BuildRequires : pkgconfig(Qt5Core)
 BuildRequires : pkgconfig(dbus-1)
+BuildRequires : pkgconfig(glib-2.0)
+BuildRequires : pkgconfig(gobject-2.0)
+BuildRequires : pkgconfig(gtk+-2.0)
+BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : pkgconfig(libdaemon)
 BuildRequires : pkgconfig(libevent)
+BuildRequires : pkgconfig(pygobject-3.0)
 BuildRequires : pkgconfig(systemd)
 # Suppress stripping binaries
 %define __strip /bin/true
@@ -131,6 +138,7 @@ man components for the avahi package.
 %package services
 Summary: services components for the avahi package.
 Group: Systemd services
+Requires: systemd
 
 %description services
 services components for the avahi package.
@@ -147,7 +155,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1680012414
+export SOURCE_DATE_EPOCH=1681410609
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -165,7 +173,8 @@ export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonl
 --disable-python \
 --disable-pygobject \
 --disable-python-dbus \
---sysconfdir=/usr/share/defaults/etc
+--sysconfdir=/usr/share/defaults/etc \
+--enable-compat-libdns_sd
 make  %{?_smp_mflags}
 
 %check
@@ -176,7 +185,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1680012414
+export SOURCE_DATE_EPOCH=1681410609
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/avahi
 cp %{_builddir}/avahi-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/avahi/9a1929f4700d2407c70b507b3b2aaf6226a9543c || :
@@ -249,6 +258,7 @@ install avahi-daemon.conf %{buildroot}/usr/share/defaults/etc/avahi/
 /usr/include/avahi-common/thread-watch.h
 /usr/include/avahi-common/timeval.h
 /usr/include/avahi-common/watch.h
+/usr/include/avahi-compat-libdns_sd/dns_sd.h
 /usr/include/avahi-core/core.h
 /usr/include/avahi-core/log.h
 /usr/include/avahi-core/lookup.h
@@ -272,7 +282,9 @@ install avahi-daemon.conf %{buildroot}/usr/share/defaults/etc/avahi/
 /usr/lib64/libavahi-gobject.so
 /usr/lib64/libavahi-libevent.so
 /usr/lib64/libavahi-qt5.so
+/usr/lib64/libdns_sd.so
 /usr/lib64/pkgconfig/avahi-client.pc
+/usr/lib64/pkgconfig/avahi-compat-libdns_sd.pc
 /usr/lib64/pkgconfig/avahi-core.pc
 /usr/lib64/pkgconfig/avahi-glib.pc
 /usr/lib64/pkgconfig/avahi-gobject.pc
@@ -308,6 +320,8 @@ install avahi-daemon.conf %{buildroot}/usr/share/defaults/etc/avahi/
 /usr/lib64/libavahi-gobject.so.0.0.5
 /usr/lib64/libavahi-libevent.so.1
 /usr/lib64/libavahi-libevent.so.1.0.0
+/usr/lib64/libdns_sd.so.1
+/usr/lib64/libdns_sd.so.1.0.0
 
 %files license
 %defattr(0644,root,root,0755)

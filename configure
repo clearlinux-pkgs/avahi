@@ -8,3 +8,4 @@
 --disable-pygobject
 --disable-python-dbus
 --sysconfdir=/usr/share/defaults/etc
+--enable-compat-libdns_sd
