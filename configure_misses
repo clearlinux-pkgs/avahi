@@ -1,9 +1,18 @@
 Configure miss: XML_ParserCreate in -lbsdxml
+Configure miss: XML_ParserCreate in -lbsdxml
+Configure miss: moc-qt5
 Configure miss: moc-qt5
 Configure miss: net/route.h
+Configure miss: net/route.h
+Configure miss: stow
 Configure miss: stow
 Configure miss: struct lifconf
+Configure miss: struct lifconf
+Configure miss: sys/sysctl.h
 Configure miss: sys/sysctl.h
 Configure miss: whether Qt works without -fPIC
+Configure miss: whether Qt works without -fPIC
 Configure miss: whether stack-smashing protection is buggy
+Configure miss: whether stack-smashing protection is buggy
+Configure miss: xmltoman
 Configure miss: xmltoman

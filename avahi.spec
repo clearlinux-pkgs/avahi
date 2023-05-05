@@ -5,7 +5,7 @@
 #
 Name     : avahi
 Version  : 0.8
-Release  : 13
+Release  : 14
 URL      : http://avahi.org/download/avahi-0.8.tar.gz
 Source0  : http://avahi.org/download/avahi-0.8.tar.gz
 Source1  : avahi.tmpfiles
@@ -149,21 +149,24 @@ services components for the avahi package.
 cd %{_builddir}/avahi-0.8
 %patch1 -p1
 %patch2 -p1
+pushd ..
+cp -a avahi-0.8 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1681410609
+export SOURCE_DATE_EPOCH=1683313452
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 %configure --disable-static --with-distro=none \
 --disable-qt3 \
 --disable-qt4 \
@@ -177,18 +180,43 @@ export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonl
 --enable-compat-libdns_sd
 make  %{?_smp_mflags}
 
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+%configure --disable-static --with-distro=none \
+--disable-qt3 \
+--disable-qt4 \
+--disable-gtk \
+--disable-gtk3 \
+--disable-mono \
+--disable-python \
+--disable-pygobject \
+--disable-python-dbus \
+--sysconfdir=/usr/share/defaults/etc \
+--enable-compat-libdns_sd
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
+cd ../buildavx2;
+make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1681410609
+export SOURCE_DATE_EPOCH=1683313452
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/avahi
 cp %{_builddir}/avahi-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/avahi/9a1929f4700d2407c70b507b3b2aaf6226a9543c || :
+pushd ../buildavx2/
+%make_install_v3
+popd
 %make_install
 %find_lang avahi
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
@@ -197,12 +225,24 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/avahi.conf
 mkdir -p %{buildroot}/usr/share/defaults/etc/avahi
 install avahi-daemon.conf %{buildroot}/usr/share/defaults/etc/avahi/
 ## install_append end
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/avahi-autoipd
+/V3/usr/bin/avahi-browse
+/V3/usr/bin/avahi-browse-domains
+/V3/usr/bin/avahi-dnsconfd
+/V3/usr/bin/avahi-publish
+/V3/usr/bin/avahi-publish-address
+/V3/usr/bin/avahi-publish-service
+/V3/usr/bin/avahi-resolve
+/V3/usr/bin/avahi-resolve-address
+/V3/usr/bin/avahi-resolve-host-name
+/V3/usr/bin/avahi-set-host-name
 /usr/bin/avahi-autoipd
 /usr/bin/avahi-browse
 /usr/bin/avahi-browse-domains
@@ -240,6 +280,14 @@ install avahi-daemon.conf %{buildroot}/usr/share/defaults/etc/avahi/
 
 %files dev
 %defattr(-,root,root,-)
+/V3/usr/lib64/libavahi-client.so
+/V3/usr/lib64/libavahi-common.so
+/V3/usr/lib64/libavahi-core.so
+/V3/usr/lib64/libavahi-glib.so
+/V3/usr/lib64/libavahi-gobject.so
+/V3/usr/lib64/libavahi-libevent.so
+/V3/usr/lib64/libavahi-qt5.so
+/V3/usr/lib64/libdns_sd.so
 /usr/include/avahi-client/client.h
 /usr/include/avahi-client/lookup.h
 /usr/include/avahi-client/publish.h
@@ -293,6 +341,9 @@ install avahi-daemon.conf %{buildroot}/usr/share/defaults/etc/avahi/
 
 %files extras
 %defattr(-,root,root,-)
+/V3/usr/bin/avahi-daemon
+/V3/usr/lib64/libavahi-qt5.so.1
+/V3/usr/lib64/libavahi-qt5.so.1.0.2
 /usr/bin/avahi-daemon
 /usr/lib/systemd/system/avahi-daemon.service
 /usr/lib/systemd/system/avahi-daemon.socket
@@ -308,6 +359,20 @@ install avahi-daemon.conf %{buildroot}/usr/share/defaults/etc/avahi/
 
 %files lib
 %defattr(-,root,root,-)
+/V3/usr/lib64/libavahi-client.so.3
+/V3/usr/lib64/libavahi-client.so.3.2.9
+/V3/usr/lib64/libavahi-common.so.3
+/V3/usr/lib64/libavahi-common.so.3.5.4
+/V3/usr/lib64/libavahi-core.so.7
+/V3/usr/lib64/libavahi-core.so.7.1.0
+/V3/usr/lib64/libavahi-glib.so.1
+/V3/usr/lib64/libavahi-glib.so.1.0.2
+/V3/usr/lib64/libavahi-gobject.so.0
+/V3/usr/lib64/libavahi-gobject.so.0.0.5
+/V3/usr/lib64/libavahi-libevent.so.1
+/V3/usr/lib64/libavahi-libevent.so.1.0.0
+/V3/usr/lib64/libdns_sd.so.1
+/V3/usr/lib64/libdns_sd.so.1.0.0
 /usr/lib64/libavahi-client.so.3
 /usr/lib64/libavahi-client.so.3.2.9
 /usr/lib64/libavahi-common.so.3
